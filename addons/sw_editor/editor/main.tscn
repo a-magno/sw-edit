@@ -1,0 +1,156 @@
+[gd_scene load_steps=4 format=3 uid="uid://dd38i1towqp3k"]
+
+[ext_resource type="Script" path="res://addons/sw_editor/editor/player_editor.gd" id="1_mnxn3"]
+[ext_resource type="PackedScene" uid="uid://g6m0nn20dim6" path="res://addons/sw_editor/editor/player_list/player_list.tscn" id="2_c43bx"]
+
+[sub_resource type="CodeHighlighter" id="CodeHighlighter_suxuc"]
+number_color = Color(0.725491, 0.999292, 0.831698, 1)
+symbol_color = Color(1, 1, 1, 1)
+function_color = Color(0.932486, 0.334782, 0.411191, 1)
+member_variable_color = Color(0.716233, 0.810914, 1, 1)
+keyword_colors = {
+"false": Color(0.984708, 0.664779, 0.679883, 1),
+"true": Color(0.984314, 0.666667, 0.678431, 1)
+}
+color_regions = {
+"\" \"": Color(0.970537, 0.851255, 0.510496, 1)
+}
+
+[node name="PlayerDataEditor" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_mnxn3")
+
+[node name="Editor" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer" type="VBoxContainer" parent="Editor"]
+layout_mode = 2
+
+[node name="VBoxContainer" parent="Editor/HBoxContainer" instance=ExtResource("2_c43bx")]
+layout_mode = 2
+size_flags_horizontal = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Editor/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Editor/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Editor/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Player Data:"
+
+[node name="SaveData" type="Button" parent="Editor/HBoxContainer/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+disabled = true
+text = "Save Player Data"
+
+[node name="SaveJSON" type="Button" parent="Editor/HBoxContainer/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+disabled = true
+text = "Save to JSON"
+
+[node name="PlayerData" type="CodeEdit" parent="Editor/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+syntax_highlighter = SubResource("CodeHighlighter_suxuc")
+highlight_all_occurrences = true
+highlight_current_line = true
+draw_control_chars = true
+line_folding = true
+gutters_draw_line_numbers = true
+gutters_draw_fold_gutter = true
+code_completion_enabled = true
+indent_automatic = true
+
+[node name="AwaitPanel" type="Panel" parent="Editor"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="AwaitMsgLabel" type="RichTextLabel" parent="Editor/AwaitPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "[center]Fetching..."
+fit_content = true
+
+[node name="ConfigEnv" type="AcceptDialog" parent="."]
+unique_name_in_owner = true
+title = ".env not found"
+initial_position = 1
+size = Vector2i(272, 123)
+unresizable = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ConfigEnv"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 264.0
+offset_bottom = 74.0
+
+[node name="GridContainer" type="GridContainer" parent="ConfigEnv/VBoxContainer"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+columns = 2
+
+[node name="Label" type="Label" parent="ConfigEnv/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "API Key:"
+
+[node name="apiKey" type="LineEdit" parent="ConfigEnv/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+secret = true
+secret_character = "*"
+
+[node name="Label2" type="Label" parent="ConfigEnv/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Game ID:"
+
+[node name="gameId" type="LineEdit" parent="ConfigEnv/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SaveLocation" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Open a Directory"
+initial_position = 1
+size = Vector2i(681, 398)
+ok_button_text = "Select Current Folder"
+file_mode = 2
+access = 2
+filters = PackedStringArray("*.json")
+
+[connection signal="data_requested" from="Editor/HBoxContainer/VBoxContainer" to="." method="_on_data_requested"]
+[connection signal="data_retrieved" from="Editor/HBoxContainer/VBoxContainer" to="." method="_on_data_retrieved"]
+[connection signal="pressed" from="Editor/HBoxContainer/VBoxContainer2/HBoxContainer/SaveData" to="." method="_on_save_data_pressed"]
+[connection signal="pressed" from="Editor/HBoxContainer/VBoxContainer2/HBoxContainer/SaveJSON" to="." method="_on_save_json_pressed"]
+[connection signal="dir_selected" from="SaveLocation" to="." method="_on_save_location_dir_selected"]

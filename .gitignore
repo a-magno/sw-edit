@@ -1,0 +1,5 @@
+# Godot 4+ specific ignores
+.godot/
+addons/sw_editor/editor/game_creds_menu/
+.env
+.json

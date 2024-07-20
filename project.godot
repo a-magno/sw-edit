@@ -1,0 +1,29 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="SilentWolfDataEditor"
+run/main_scene="res://addons/sw_editor/editor/main.tscn"
+config/features=PackedStringArray("4.2", "Forward Plus")
+config/icon="res://icon.svg"
+
+[autoload]
+
+SilentWolf="*res://addons/silent_wolf/SilentWolf.gd"
+SWEdit="*res://addons/sw_editor/autoload.gd"
+
+[dotnet]
+
+project/assembly_name="SilentWolfDataEditor"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/plugin_refresher/plugin.cfg", "res://addons/silent_wolf/plugin.cfg", "res://addons/sw_editor/plugin.cfg")

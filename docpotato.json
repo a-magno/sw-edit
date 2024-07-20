@@ -1,0 +1,31 @@
+{
+	"achievements": [
+		{
+			"death_count_1": {
+				"progress": {
+					"current": 71,
+					"target": 100
+				},
+				"unlocked": false
+			}
+		},
+		{
+			"death_count_2": {
+				"progress": {
+					"current": 71,
+					"target": 250
+				},
+				"unlocked": false
+			}
+		},
+		{
+			"death_count_3": {
+				"progress": {
+					"current": 71,
+					"target": 500
+				},
+				"unlocked": false
+			}
+		}
+	]
+}
